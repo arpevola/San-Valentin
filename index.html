@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín</title>
+
+<style>
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+}
+
+.contenedor{
+    position: relative;
+    width: min(520px, 92vw);
+    text-align:center;
+    background:white;
+    padding: 28px 22px;
+    border-radius: 14px;
+    box-shadow: 0px 8px 22px rgba(0,0,0,0.18);
+    overflow: hidden;
+}
+
+h2{
+    margin-bottom: 15px;
+}
+
+.botones{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    position:relative;
+    min-height:50px;
+}
+
+button{
+    border:0;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.12);
+    transition:0.2s;
+}
+
+button:active{
+    transform:scale(0.97);
+}
+
+.msg{
+    margin-top:15px;
+    min-height:20px;
+}
+
+#btnNo{
+    position:absolute;
+    left:50%;
+    top:0px;
+    transform:translateX(140px);
+}
+
+.pantalla{
+    display:none;
+}
+
+.pantalla.activa{
+    display:block;
+}
+
+.final img{
+    width: min(360px, 80vw);
+    border-radius:14px;
+    margin-top:15px;
+    box-shadow:0px 8px 22px rgba(0,0,0,0.2);
+}
+
+.tituloFinal{
+    margin-top:10px;
+    font-size:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<!-- Pantalla 1 -->
+<div id="pantalla1" class="pantalla activa">
+    <h2>¿Quieres ser mi San Valentín?</h2>
+
+    <div class="botones" id="zonaBotones1">
+        <button id="btnSi">Sí</button>
+        <button id="btnSiAmor">Sí, mi amor</button>
+        <button id="btnNo">No</button>
+    </div>
+
+    <div class="msg" id="mensaje1"></div>
+</div>
+
+<!-- Pantalla 2 -->
+<div id="pantalla2" class="pantalla">
+    <h2>Ok… pero dilo bien 😌</h2>
+
+    <div class="botones">
+        <button id="btnSiAmorBonito">Sí, mi amor bonito</button>
+    </div>
+
+    <div class="msg" id="mensaje2"></div>
+</div>
+
+<!-- Pantalla Final -->
+<div id="pantallaFinal" class="pantalla final">
+    <div class="tituloFinal">Mi San Valentín, Mareva ❤️</div>
+
+    <!-- AQUÍ ESTÁ LA IMAGEN -->
+    <img src="mareva.jpeg" alt="Mareva">
+
+    <br><br>
+    <button onclick="volverInicio()">Return</button>
+</div>
+
+</div>
+
+<script>
+
+var noClicks = 0;
+
+var pantalla1 = document.getElementById("pantalla1");
+var pantalla2 = document.getElementById("pantalla2");
+var pantallaFinal = document.getElementById("pantallaFinal");
+
+var mensaje1 = document.getElementById("mensaje1");
+var mensaje2 = document.getElementById("mensaje2");
+
+var btnSi = document.getElementById("btnSi");
+var btnSiAmor = document.getElementById("btnSiAmor");
+var btnSiAmorBonito = document.getElementById("btnSiAmorBonito");
+var btnNo = document.getElementById("btnNo");
+
+var zonaBotones1 = document.getElementById("zonaBotones1");
+
+btnSi.onclick = function(){
+    mensaje1.innerHTML = "Así no se dice";
+};
+
+btnSiAmor.onclick = function(){
+    mensaje1.innerHTML = "";
+    pantalla1.classList.remove("activa");
+    pantalla2.classList.add("activa");
+};
+
+btnSiAmorBonito.onclick = function(){
+    pantalla2.classList.remove("activa");
+    pantallaFinal.classList.add("activa");
+};
+
+btnNo.onclick = function(){
+
+    noClicks++;
+
+    if(noClicks >= 5){
+        btnNo.style.display = "none";
+        return;
+    }
+
+    var area = zonaBotones1.getBoundingClientRect();
+
+    var bw = btnNo.offsetWidth;
+    var bh = btnNo.offsetHeight;
+
+    var maxX = area.width - bw;
+    var maxY = area.height - bh;
+
+    var x = Math.floor(Math.random() * maxX);
+    var y = Math.floor(Math.random() * maxY);
+
+    btnNo.style.left = x + "px";
+    btnNo.style.top = y + "px";
+    btnNo.style.transform = "none";
+};
+
+function volverInicio(){
+
+    pantallaFinal.classList.remove("activa");
+    pantalla2.classList.remove("activa");
+    pantalla1.classList.add("activa");
+
+    mensaje1.innerHTML = "";
+    mensaje2.innerHTML = "";
+
+    noClicks = 0;
+
+    btnNo.style.display = "inline-block";
+    btnNo.style.left = "50%";
+    btnNo.style.top = "0px";
+    btnNo.style.transform = "translateX(140px)";
+}
+
+</script>
+
+</body>
+</html>
